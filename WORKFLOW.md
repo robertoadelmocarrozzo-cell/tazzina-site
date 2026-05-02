@@ -75,8 +75,42 @@ If you buy a domain (e.g. `tazzina.com.au` from Namecheap, Google Domains, etc.)
 
 ## When you want to update the site later
 
-- **Change menu prices or items?** Edit `menu.html` directly. Find the item, change the text. Save. Re-upload the file (or the whole folder) to Cloudflare Pages.
+- **Change menu prices or items?** Edit the **Tazzina Menu** Google Sheet. The site rebuilds itself within ~15 minutes. (Setup details below — owner can edit from the Sheets app on phone.)
 - **Change hours?** Edit the footer block in all three HTML files (it's the same in each), and the visit panel on `about.html`. Also update the `schedule` object at the top of `script.js` — that's what drives the "Open today" card on the homepage.
 - **One-off closure (public holiday, private event)?** Add a line to the `holidays` object in `script.js`, e.g. `'2026-12-25': ['Closed – Christmas Day']`.
 - **New photos?** Drop into `images/` with the same filenames to replace, or use new names and update the `<img src="...">` lines.
 - **Bigger changes?** Re-open Claude Code in the project folder and describe what you want.
+
+---
+
+## Menu sync from Google Sheet — one-time setup
+
+The menu lives in a Google Sheet so the restaurant owner can edit prices and items from their phone without touching code. A GitHub Action runs every 15 minutes, pulls the sheet, regenerates `menu.html`, commits, and Cloudflare auto-deploys.
+
+### Files involved
+- `scripts/sync-menu.mjs` — the sync script.
+- `.github/workflows/sync-menu.yml` — the cron + manual workflow.
+- `scripts/initial-menu.csv` — seed data (paste this into the Sheet on first setup).
+- `menu.html` — has `<!-- MENU:TABS:START/END -->` and `<!-- MENU:SECTIONS:START/END -->` markers; the script replaces only the content between them.
+
+### One-time setup steps
+1. **Create the Google Sheet.** Make a new Sheet titled "Tazzina Menu". Open `scripts/initial-menu.csv`, copy it, and paste into row 1 of the sheet (use *Paste special → Comma separated values*). The first row is the header (`Category, Name, Price, Glass, Bottle`).
+2. **Share the sheet** with the owner as Editor.
+3. **Publish to web as CSV.** File → Share → Publish to web → choose the sheet's tab → Comma-separated values (.csv) → Publish. Copy the resulting URL (it ends in `output=csv`).
+4. **Add the URL as a GitHub secret.** Repo settings → Secrets and variables → Actions → New repository secret → name `MENU_CSV_URL`, value = the CSV URL.
+5. **Trigger the workflow once manually** to verify: Actions tab → "Sync menu from Google Sheet" → Run workflow. Confirm it runs green and either commits a no-op or no commit at all.
+6. **Tell the owner:** "Edit the Tazzina Menu sheet. Changes go live within 15 minutes."
+
+### Sheet rules (give these to the owner)
+- One row per item. Header row stays in row 1 — don't touch it.
+- `Category`, `Name`, and either `Price` *or* `Glass`/`Bottle` are required.
+- Prices are plain numbers (e.g. `12`, `6.50`) — no `$`. The site adds the `$`.
+- For wine: leave `Price` blank and fill `Glass` and `Bottle`. If a wine is bottle-only, leave `Glass` blank.
+- New category? Just type it in the `Category` cell — a new tab and section will appear automatically.
+- Row order = display order on the website.
+
+### What happens if the sheet has a mistake
+The sync script validates before writing. If a row is broken (missing name, non-numeric price, etc.) it **does not update the live menu**, and instead opens a GitHub Issue describing the problem. The existing menu stays live until the sheet is fixed.
+
+### Adjust the sync frequency
+Edit `.github/workflows/sync-menu.yml` and change the cron line. `*/15 * * * *` is every 15 minutes; `0 * * * *` is hourly; `*/5 * * * *` is every 5 minutes. Cron is UTC.

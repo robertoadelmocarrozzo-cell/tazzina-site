@@ -1,0 +1,123 @@
+name: Sync menu from Google Sheet
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: sync-menu
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run sync
+        id: sync
+        shell: bash
+        env:
+          MENU_CSV_URL: ${{ secrets.MENU_CSV_URL }}
+        run: |
+          set +e
+          node scripts/sync-menu.mjs > sync.out 2> sync.err
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo '--- stdout ---'; cat sync.out || true
+          echo '--- stderr ---'; cat sync.err || true
+          exit 0
+
+      - name: Fail on infrastructure error
+        if: steps.sync.outputs.code != '0' && steps.sync.outputs.code != '2'
+        run: |
+          echo "Sync failed with exit code ${{ steps.sync.outputs.code }} (not a sheet validation issue)."
+          exit 1
+
+      - name: Open / update issue on validation error
+        if: steps.sync.outputs.code == '2'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const errors = fs.readFileSync('sync.err', 'utf8').trim();
+            const body = [
+              'The menu sync detected errors in the Google Sheet. **The live menu has NOT been updated** — fix the sheet, then either wait for the next sync (every 15 min) or trigger the workflow manually.',
+              '',
+              '```',
+              errors,
+              '```',
+              '',
+              `_Last detected: ${new Date().toISOString()}_`,
+            ].join('\n');
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'menu-sync',
+            });
+            if (open.data.length > 0) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: open.data[0].number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Menu sync: validation errors in Google Sheet',
+                body,
+                labels: ['menu-sync'],
+              });
+            }
+
+      - name: Close stale validation issues on success
+        if: steps.sync.outputs.code == '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'menu-sync',
+            });
+            for (const issue of open.data) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: 'Menu sync ran cleanly — closing.',
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+              });
+            }
+
+      - name: Commit & push if menu.html changed
+        if: steps.sync.outputs.code == '0'
+        shell: bash
+        run: |
+          if [[ -n "$(git status --porcelain menu.html)" ]]; then
+            git config user.name 'tazzina-menu-sync[bot]'
+            git config user.email 'tazzina-menu-sync@users.noreply.github.com'
+            git add menu.html
+            git commit -m 'Sync menu from Google Sheet'
+            git push
+          else
+            echo 'menu.html unchanged — nothing to commit.'
+          fi
