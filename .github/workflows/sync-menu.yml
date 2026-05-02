@@ -27,7 +27,8 @@ jobs:
         id: sync
         shell: bash
         env:
-          MENU_CSV_URL: ${{ secrets.MENU_CSV_URL }}
+          GOOGLE_SHEETS_API_KEY: ${{ secrets.GOOGLE_SHEETS_API_KEY }}
+          GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
         run: |
           set +e
           node scripts/sync-menu.mjs > sync.out 2> sync.err
@@ -109,6 +110,7 @@ jobs:
             }
 
       - name: Commit & push if menu.html changed
+        id: commit
         if: steps.sync.outputs.code == '0'
         shell: bash
         run: |
@@ -118,6 +120,14 @@ jobs:
             git add menu.html
             git commit -m 'Sync menu from Google Sheet'
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo 'menu.html unchanged — nothing to commit.'
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Trigger deploy
+        if: steps.commit.outputs.changed == 'true'
+        run: gh workflow run deploy.yml --ref master
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
