@@ -2,7 +2,9 @@ name: Sync menu from Google Sheet
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 * * * *'
+  repository_dispatch:
+    types: [sheet-edit]
   workflow_dispatch: {}
 
 permissions:

@@ -83,6 +83,35 @@ The slug in `data-filter` and `data-category` must match exactly. No JS changes 
 
 ---
 
+## Menu sync (Google Sheet → live site)
+
+The menu on the live site is generated from a Google Sheet. The pipeline:
+
+1. Edit the sheet (categories, names, prices, glass/bottle).
+2. A Google Apps Script bound to the sheet detects the change and POSTs a `repository_dispatch` event to GitHub.
+3. The **Sync menu from Google Sheet** workflow reads the sheet via the Sheets API, rewrites the marked regions of `menu.html`, commits, and triggers a deploy.
+4. **Deploy to Cloudflare Pages** publishes the new HTML.
+
+End-to-end: ~1–2 minutes from edit to live.
+
+**If validation fails** (missing Category/Name, non-numeric Price, etc.) the workflow opens a GitHub issue with the offending rows and leaves the live menu untouched. Fix the sheet and the next sync clears the issue.
+
+**Manual fallback.** If automation is broken, go to **Actions → Sync menu from Google Sheet → Run workflow** and dispatch it by hand.
+
+**Hourly safety-net cron.** A cron also fires at the top of every hour as backup against Apps Script quota issues, expired tokens, or Google outages.
+
+### Annual maintenance: rotate the GitHub token
+
+The fine-grained Personal Access Token used by Apps Script expires once a year. To rotate:
+
+1. Generate a new fine-grained PAT at <https://github.com/settings/personal-access-tokens/new> with: Resource owner = your account, Repository access = only `tazzina-site`, Permissions = `Actions: Read and write` (and `Metadata: Read`, auto-required), Expiration = 1 year.
+2. Open the sheet → **Extensions → Apps Script → Project Settings → Script Properties** → edit `GITHUB_PAT`, paste the new token, save.
+3. Test by editing one cell of the sheet. Within ~30s a new run should appear in **Actions** with event type `repository_dispatch`.
+
+Set a calendar reminder for ~11 months out so the rotation never lapses.
+
+---
+
 ## Notes
 
 - The site has zero runtime API calls and works offline once a page is loaded.
