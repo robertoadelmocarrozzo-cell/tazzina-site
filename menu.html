@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu &middot; Tazzina &middot; Greensborough</title>
+  <meta name="description" content="The Tazzina menu: wood-fired pizza, fresh pasta, antipasti, breakfast, wine, cocktails and more, served in Greensborough.">
+  <meta property="og:title" content="Menu &middot; Tazzina">
+  <meta property="og:description" content="Wood-fired pizza, pasta, and Italian classics. Made by hand, served with heart.">
+  <meta property="og:image" content="images/storefront.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="menu">
+
+  <header class="site-header">
+    <a href="index.html" class="logo-wrap" aria-label="Tazzina home">
+      <img src="images/logo.png" alt="Tazzina" class="logo-img">
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+    </button>
+    <nav class="site-nav" id="site-nav">
+      <a href="index.html">Home</a>
+      <a href="menu.html" class="active">Menu</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="menu-header">
+      <p class="eyebrow">Il men&ugrave;</p>
+      <h2 class="section-heading">Our menu</h2>
+      <hr class="divider">
+      <p class="section-intro">Made by hand, served with heart.</p>
+    </section>
+
+    <!-- Tabs -->
+    <nav class="menu-tabs" aria-label="Menu category filter">
+      <button class="menu-tab on" data-filter="all">All</button>
+      <button class="menu-tab" data-filter="breakfast">Breakfast</button>
+      <button class="menu-tab" data-filter="antipasti">Antipasti</button>
+      <button class="menu-tab" data-filter="pizza">Pizza</button>
+      <button class="menu-tab" data-filter="pasta">Pasta</button>
+      <button class="menu-tab" data-filter="mains">Mains</button>
+      <button class="menu-tab" data-filter="contorni">Contorni</button>
+      <button class="menu-tab" data-filter="dessert">Dessert</button>
+      <button class="menu-tab" data-filter="pastries">Pastries</button>
+      <button class="menu-tab" data-filter="hot-drinks">Hot Drinks</button>
+      <button class="menu-tab" data-filter="cocktails">Cocktails</button>
+      <button class="menu-tab" data-filter="spritz">Spritz</button>
+      <button class="menu-tab" data-filter="wine">Wine</button>
+      <button class="menu-tab" data-filter="beers">Beers</button>
+      <button class="menu-tab" data-filter="spirits">Spirits</button>
+      <button class="menu-tab" data-filter="soft-drinks">Soft Drinks</button>
+    </nav>
+
+    <div class="menu-body">
+
+      <!-- Breakfast -->
+      <section class="menu-section" data-category="breakfast">
+        <h3>Breakfast</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Banana bread</span><span class="price">$6.50</span></div>
+        <div class="menu-item"><span class="name">Big breakfast</span><span class="price">$26</span></div>
+        <div class="menu-item"><span class="name">Breakfast burger</span><span class="price">$19</span></div>
+        <div class="menu-item"><span class="name">Chilli scramble</span><span class="price">$24</span></div>
+        <div class="menu-item"><span class="name">Eggs Benedict</span><span class="price">$24</span></div>
+        <div class="menu-item"><span class="name">Eggs Florentine</span><span class="price">$22</span></div>
+        <div class="menu-item"><span class="name">Eggs Royale</span><span class="price">$24</span></div>
+        <div class="menu-item"><span class="name">Eggs on toast</span><span class="price">$12</span></div>
+        <div class="menu-item"><span class="name">French toast</span><span class="price">$22</span></div>
+        <div class="menu-item"><span class="name">Smash avocado</span><span class="price">$24</span></div>
+        <div class="menu-item"><span class="name">Toast</span><span class="price">$8</span></div>
+        <div class="menu-item"><span class="name">Toastie ham &amp; cheese</span><span class="price">$8.50</span></div>
+      </section>
+
+      <!-- Antipasti -->
+      <section class="menu-section" data-category="antipasti">
+        <h3>Antipasti</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Arancini Bolognese</span><span class="price">$12</span></div>
+        <div class="menu-item"><span class="name">Burrata</span><span class="price">$16</span></div>
+        <div class="menu-item"><span class="name">Calamari</span><span class="price">$14</span></div>
+        <div class="menu-item"><span class="name">Focaccia</span><span class="price">$10</span></div>
+        <div class="menu-item"><span class="name">Garlic and mozzarella pizza</span><span class="price">$16</span></div>
+        <div class="menu-item"><span class="name">Polpette in sugo</span><span class="price">$16</span></div>
+        <div class="menu-item"><span class="name">Chips</span><span class="price">$10</span></div>
+      </section>
+
+      <!-- Pizza -->
+      <section class="menu-section" data-category="pizza">
+        <h3>Pizza</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Margherita</span><span class="price">$24</span></div>
+        <div class="menu-item"><span class="name">Sud</span><span class="price">$22</span></div>
+        <div class="menu-item"><span class="name">Tropicale</span><span class="price">$26</span></div>
+        <div class="menu-item"><span class="name">Capricciosa</span><span class="price">$26</span></div>
+        <div class="menu-item"><span class="name">Diavola</span><span class="price">$26</span></div>
+        <div class="menu-item"><span class="name">Pepperoni</span><span class="price">$28</span></div>
+        <div class="menu-item"><span class="name">Salsiccia e Friarielli</span><span class="price">$27</span></div>
+        <div class="menu-item"><span class="name">Salsiccia e Patate</span><span class="price">$28</span></div>
+        <div class="menu-item"><span class="name">Funghi</span><span class="price">$30</span></div>
+        <div class="menu-item"><span class="name">Gamberi</span><span class="price">$30</span></div>
+        <div class="menu-item"><span class="name">Prosciutto</span><span class="price">$30</span></div>
+        <div class="menu-item"><span class="name">Pane</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Nutella</span><span class="price">$16</span></div>
+      </section>
+
+      <!-- Pasta -->
+      <section class="menu-section" data-category="pasta">
+        <h3>Pasta</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Spaghetti aglio e olio</span><span class="price">$22</span></div>
+        <div class="menu-item"><span class="name">Spaghetti alla gricia</span><span class="price">$26</span></div>
+        <div class="menu-item"><span class="name">Spaghetti puttanesca</span><span class="price">$26</span></div>
+        <div class="menu-item"><span class="name">Fusilli zucchini pesto</span><span class="price">$26</span></div>
+        <div class="menu-item"><span class="name">Gnocchi with butter and sage</span><span class="price">$26</span></div>
+        <div class="menu-item"><span class="name">Rigatoni alla norma</span><span class="price">$27</span></div>
+        <div class="menu-item"><span class="name">Pappardelle with beef rag&ugrave;</span><span class="price">$28</span></div>
+        <div class="menu-item"><span class="name">Lasagna</span><span class="price">$30</span></div>
+      </section>
+
+      <!-- Mains -->
+      <section class="menu-section" data-category="mains">
+        <h3>Mains</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Chicken dish</span><span class="price">$30</span></div>
+        <div class="menu-item"><span class="name">Veal cotoletta alla Milanese</span><span class="price">$32</span></div>
+        <div class="menu-item"><span class="name">Fish dish</span><span class="price">$34</span></div>
+        <div class="menu-item"><span class="name">Ossobuco Milanese</span><span class="price">$36</span></div>
+      </section>
+
+      <!-- Contorni -->
+      <section class="menu-section" data-category="contorni">
+        <h3>Contorni</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Patate fritte</span><span class="price">$10</span></div>
+        <div class="menu-item"><span class="name">Insalata mista</span><span class="price">$12</span></div>
+        <div class="menu-item"><span class="name">Broccolini</span><span class="price">$12</span></div>
+        <div class="menu-item"><span class="name">Rucola salad</span><span class="price">$14</span></div>
+        <div class="menu-item"><span class="name">Insalata caprese</span><span class="price">$16</span></div>
+      </section>
+
+      <!-- Dessert -->
+      <section class="menu-section" data-category="dessert">
+        <h3>Dessert</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Cannolo</span><span class="price">$6</span></div>
+        <div class="menu-item"><span class="name">Tiramisu</span><span class="price">$11</span></div>
+        <div class="menu-item"><span class="name">Nutella pizza</span><span class="price">$16</span></div>
+      </section>
+
+      <!-- Pastries -->
+      <section class="menu-section" data-category="pastries">
+        <h3>Pastries</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Choc fingers</span><span class="price">$3.50</span></div>
+        <div class="menu-item"><span class="name">Muesli bars</span><span class="price">$3.50</span></div>
+        <div class="menu-item"><span class="name">Biscuit</span><span class="price">$4</span></div>
+        <div class="menu-item"><span class="name">Muffin</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Croissant</span><span class="price">$6</span></div>
+        <div class="menu-item"><span class="name">Chocolate croissant</span><span class="price">$6.50</span></div>
+        <div class="menu-item"><span class="name">Danish</span><span class="price">$6.50</span></div>
+      </section>
+
+      <!-- Hot Drinks -->
+      <section class="menu-section" data-category="hot-drinks">
+        <h3>Hot Drinks</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Babycino</span><span class="price">$2</span></div>
+        <div class="menu-item"><span class="name">Espresso</span><span class="price">$4</span></div>
+        <div class="menu-item"><span class="name">Short macchiato</span><span class="price">$4.50</span></div>
+        <div class="menu-item"><span class="name">Cappuccino</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Flat white</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Latte</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Long black</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Long macchiato</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Chai latte</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Hot chocolate</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">Tea</span><span class="price">$5</span></div>
+        <div class="menu-item"><span class="name">1 kg coffee beans</span><span class="price">$45</span></div>
+      </section>
+
+      <!-- Cocktails -->
+      <section class="menu-section" data-category="cocktails">
+        <h3>Cocktails</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Gin tonic</span><span class="price">$15</span></div>
+        <div class="menu-item"><span class="name">Negroni Sbagliato</span><span class="price">$16</span></div>
+        <div class="menu-item"><span class="name">Americano</span><span class="price">$16</span></div>
+        <div class="menu-item"><span class="name">Negroni</span><span class="price">$18</span></div>
+      </section>
+
+      <!-- Spritz -->
+      <section class="menu-section" data-category="spritz">
+        <h3>Spritz</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Aperol Spritz</span><span class="price">$16</span></div>
+        <div class="menu-item"><span class="name">Campari Spritz</span><span class="price">$16</span></div>
+        <div class="menu-item"><span class="name">Limoncello Spritz</span><span class="price">$18</span></div>
+      </section>
+
+      <!-- Wine -->
+      <section class="menu-section" data-category="wine">
+        <h3>Wine</h3><hr class="divider-sm">
+        <div class="wine-head">
+          <span>Variety</span>
+          <span>Glass</span>
+          <span>Bottle</span>
+        </div>
+        <div class="wine-row"><span class="name">Prosecco</span><span class="price">$12</span><span class="price">$46</span></div>
+        <div class="wine-row"><span class="name">Pinot Grigio</span><span class="price">$13</span><span class="price">$49</span></div>
+        <div class="wine-row"><span class="name">Sauvignon Blanc</span><span class="price">$13</span><span class="price">$49</span></div>
+        <div class="wine-row"><span class="name">Chardonnay</span><span class="price">$15</span><span class="price">$56</span></div>
+        <div class="wine-row"><span class="name">Musita Amal</span><span class="price">$15</span><span class="price">$56</span></div>
+        <div class="wine-row"><span class="name">Pinot Noir</span><span class="price">$15</span><span class="price">$56</span></div>
+        <div class="wine-row"><span class="name">Chianti</span><span class="price">$15</span><span class="price">$56</span></div>
+        <div class="wine-row"><span class="name">Valpolicella Classico</span><span class="price">$16</span><span class="price">$60</span></div>
+        <div class="wine-row"><span class="name">Fiano</span><span class="price empty">&mdash;</span><span class="price">$57</span></div>
+        <div class="wine-row"><span class="name">Governo Toscano</span><span class="price empty">&mdash;</span><span class="price">$59</span></div>
+        <div class="wine-row"><span class="name">Grillo Funaro</span><span class="price empty">&mdash;</span><span class="price">$64</span></div>
+        <div class="wine-row"><span class="name">Nero d'Avola</span><span class="price empty">&mdash;</span><span class="price">$64</span></div>
+        <div class="wine-row"><span class="name">Simon Tolley Estate Syrah</span><span class="price empty">&mdash;</span><span class="price">$64</span></div>
+      </section>
+
+      <!-- Beers -->
+      <section class="menu-section" data-category="beers">
+        <h3>Beers</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Carlton Dry</span><span class="price">$9</span></div>
+        <div class="menu-item"><span class="name">Birra Moretti</span><span class="price">$10</span></div>
+        <div class="menu-item"><span class="name">Corona</span><span class="price">$10</span></div>
+        <div class="menu-item"><span class="name">Peroni Rossa</span><span class="price">$10</span></div>
+        <div class="menu-item"><span class="name">Stone &amp; Wood</span><span class="price">$11</span></div>
+      </section>
+
+      <!-- Spirits -->
+      <section class="menu-section" data-category="spirits">
+        <h3>Spirits</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Sambuca</span><span class="price">$9</span></div>
+        <div class="menu-item"><span class="name">Amaretto di Saronno</span><span class="price">$10</span></div>
+        <div class="menu-item"><span class="name">Limoncello</span><span class="price">$11</span></div>
+        <div class="menu-item"><span class="name">Montenegro</span><span class="price">$11</span></div>
+      </section>
+
+      <!-- Soft Drinks -->
+      <section class="menu-section" data-category="soft-drinks">
+        <h3>Soft Drinks</h3><hr class="divider-sm">
+        <div class="menu-item"><span class="name">Coke</span><span class="price">$4</span></div>
+        <div class="menu-item"><span class="name">Coke Zero</span><span class="price">$4</span></div>
+        <div class="menu-item"><span class="name">Juice</span><span class="price">$4</span></div>
+        <div class="menu-item"><span class="name">Lemonade</span><span class="price">$4</span></div>
+        <div class="menu-item"><span class="name">Solo</span><span class="price">$4</span></div>
+        <div class="menu-item"><span class="name">Aranciata Rossa</span><span class="price">$4.50</span></div>
+        <div class="menu-item"><span class="name">Chinotto</span><span class="price">$4.50</span></div>
+        <div class="menu-item"><span class="name">Limonata</span><span class="price">$4.50</span></div>
+        <div class="menu-item"><span class="name">San Pellegrino (small)</span><span class="price">$4.50</span></div>
+        <div class="menu-item"><span class="name">Sanbitter</span><span class="price">$4.50</span></div>
+        <div class="menu-item"><span class="name">Lemon-lime bitters</span><span class="price">$5.50</span></div>
+        <div class="menu-item"><span class="name">San Pellegrino (large)</span><span class="price">$9</span></div>
+        <div class="menu-item"><span class="name">Non-alcoholic beer</span><span class="price">$9</span></div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <h5>Tazzina</h5>
+        <p>Italian kitchen &amp; pizzeria</p>
+        <p>19 Greenhill Rd</p>
+        <p>Greensborough VIC 3088</p>
+        <p><a href="tel:+61394350098">(03) 9435 0098</a></p>
+        <p class="small">Outdoor seating &middot; Dogs allowed outside</p>
+      </div>
+      <div>
+        <h5>Hours</h5>
+        <p>Monday &mdash; Closed</p>
+        <p>Tue&ndash;Fri 7am&ndash;1pm, 5pm&ndash;9pm</p>
+        <p>Sat&ndash;Sun 8am&ndash;1pm, 5pm&ndash;9pm</p>
+      </div>
+      <div>
+        <h5>Follow</h5>
+        <p><a href="https://instagram.com/tazzina_greensborough">@tazzina_greensborough</a></p>
+        <p class="small">&copy; 2026 Tazzina &middot; Greensborough</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
