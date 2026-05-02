@@ -20,43 +20,18 @@ const MARK = {
   sectionsEnd: '<!-- MENU:SECTIONS:END -->',
 };
 
-const CSV_URL = process.env.MENU_CSV_URL;
-if (!CSV_URL) {
-  console.error('MENU_CSV_URL env var is not set.');
-  process.exit(1);
-}
+const API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
+const SHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
+if (!API_KEY) { console.error('GOOGLE_SHEETS_API_KEY env var is not set.'); process.exit(1); }
+if (!SHEET_ID) { console.error('GOOGLE_SPREADSHEET_ID env var is not set.'); process.exit(1); }
 
-function parseCSV(text) {
-  const rows = [];
-  let row = [];
-  let field = '';
-  let quoted = false;
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-    if (quoted) {
-      if (ch === '"') {
-        if (text[i + 1] === '"') { field += '"'; i++; }
-        else { quoted = false; }
-      } else {
-        field += ch;
-      }
-    } else if (ch === '"') {
-      quoted = true;
-    } else if (ch === ',') {
-      row.push(field); field = '';
-    } else if (ch === '\n') {
-      row.push(field); rows.push(row); row = []; field = '';
-    } else if (ch === '\r') {
-      // ignore
-    } else {
-      field += ch;
-    }
-  }
-  if (field.length > 0 || row.length > 0) {
-    row.push(field);
-    rows.push(row);
-  }
-  return rows;
+async function loadRows() {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/A:Z?key=${API_KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Sheets API error: ${res.status} ${res.statusText}`);
+  const json = await res.json();
+  if (!json.values?.length) throw new Error('Sheet returned no data.');
+  return json.values;
 }
 
 function htmlEscape(s) {
@@ -152,15 +127,13 @@ function replaceBlock(source, startMark, endMark, body) {
 }
 
 async function main() {
-  let csvText;
+  let rows;
   try {
-    csvText = await loadCSV(CSV_URL);
+    rows = await loadRows();
   } catch (e) {
     console.error(e.message);
     process.exit(1);
   }
-
-  const rows = parseCSV(csvText);
   if (rows.length < 2) {
     console.error('CSV has no data rows.');
     process.exit(2);
